@@ -1,0 +1,71 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav
+    #drawer
+    class="sidenav"
+    fixedInViewport="true"
+    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+    [mode]="(isHandset$ | async) ? 'over' : 'side'"
+    [opened]="!(isHandset$ | async)"
+  >
+    <mat-toolbar color="primary">Menu</mat-toolbar>
+    <mat-nav-list>
+      <mat-accordion displayMode="flat" class="custom-panel">
+        <mat-expansion-panel class="mat-elevation-z0">
+          <mat-expansion-panel-header class="nav-head" expandedHeight="48px">
+            <mat-panel-title class="nav-link">
+              <span>Streams</span>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="nav-section">
+            <div class="nav-item" *ngIf="(isHandset$ | async)">
+              <a
+                class="nav-link"
+                [routerLink]="link.link"
+                *ngFor="let link of links"
+                (click)="drawer.toggle()"
+                mat-list-item
+                ><span class="nav-link-text small-font">{{
+                  link.title
+                }}</span></a
+              >
+            </div>
+            <div class="nav-item" *ngIf="!(isHandset$ | async)">
+              <a
+                class="nav-link small-font"
+                routerLinkActive="active"
+                [routerLink]="link.link"
+                *ngFor="let link of links"
+                mat-list-item
+              >
+                <span class="nav-link-text">{{ link.title }}</span></a
+              >
+            </div>
+          </div>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      <button
+        type="button"
+        aria-label="Toggle sidenav"
+        mat-icon-button
+        (click)="drawer.toggle()"
+        *ngIf="(isHandset$ | async)"
+      >
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+      </button>
+      <span>twitch</span>
+    </mat-toolbar>
+    <div class="container">
+      <div class="backdrop"><router-outlet></router-outlet></div>
+      <!-- <div
+        *ngIf="(currentError$ | async) !== ''"
+        class="backdrop margin-top gci-red padding-backdrop"
+      >
+        {{ currentError$ | async }}
+      </div> -->
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
